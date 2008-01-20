@@ -97,6 +97,9 @@ perl -pi -e "s|STRIP=.*|STRIP=/bin/true|" Makefile.config
 # this is needed to construct a correct soname (fugly)
 perl -pi -e "s|LDSONAME=.*|LDSONAME=-Wl,-soname|" Makefile.config
 
+# gcc: -pg and -fomit-frame-pointer are incompatible
+perl -pi -e "s|-pg||" Makefile.config
+
 export LD_LIBRARY_PATH=`pwd`/lib/%{major}
 export BIGLOOLIB=%{inplace}%{_libdir}/bigloo/%{major}
 make
