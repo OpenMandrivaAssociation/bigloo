@@ -76,6 +76,21 @@ find . -type d -exec chmod 755 {} \;
 %build
 
 ./configure \
+%ifarch x86_64 amd64 athlon
+    --arch=athlon \
+%endif
+%ifarch i586
+    --arch=i586 \
+%endif
+%ifarch i686
+    --arch=i686 \
+%endif
+%ifarch pentium3
+    --arch=pentium3 \
+%endif
+%ifarch pentium4
+    --arch=pentium4 \
+%endif
     --prefix=%{_prefix} \
     --bindir=%{_bindir} \
     --libdir=%{_libdir} \
