@@ -74,6 +74,7 @@ find . -type f -perm 0640 -exec chmod 644 {} \;
 find . -type d -exec chmod 755 {} \;
 
 %build
+export CFLAGS="`echo %{optflags}|sed -e 's/-fomit-frame-pointer//'` -fPIC"
 
 ./configure \
 %ifarch x86_64 amd64 athlon
@@ -104,7 +105,7 @@ find . -type d -exec chmod 755 {} \;
     --jvm=no \
     --sharedbde=yes \
     --sharedcompiler=yes \
-    --coflags="%{optflags} -fPIC"
+    --coflags="$CFLAGS"
 
 # this is needed to provide a meanful debug package
 perl -pi -e "s|STRIP=.*|STRIP=/bin/true|" Makefile.config
