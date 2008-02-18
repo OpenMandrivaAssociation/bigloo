@@ -6,7 +6,7 @@
 %define libname %mklibname bigloo %{major}
 %define develname %mklibname bigloo -d
 
-Summary:	Bigloo is compiler for the Scheme programming language
+Summary:	Compiler for the Scheme programming language
 Name:		bigloo
 Version:	3.0c
 Release:	%mkrel 0.2
