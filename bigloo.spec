@@ -8,12 +8,12 @@
 
 Summary:	Compiler for the Scheme programming language
 Name:		bigloo
-Version:	3.0c
-Release:	%mkrel 0.2
+Version:	3.1b
+Release:	%mkrel 1
 Group:		Development/C
 License:	GPLv2+
 URL:		http://www-sop.inria.fr/mimosa/fp/Bigloo
-Source0:	ftp://ftp-sop.inria.fr/mimosa/fp/Bigloo/bigloo%{version}-4.tar.gz
+Source:		ftp://ftp-sop.inria.fr/mimosa/fp/Bigloo/%{name}%{version}.tar.gz
 BuildRequires:	indent
 BuildRequires:	info-install
 BuildRequires:	sqlite3-devel
@@ -75,7 +75,7 @@ find . -type d -exec chmod 755 {} \;
 
 %build
 export CFLAGS="`echo %{optflags}|sed -e 's/-fomit-frame-pointer//'` -fPIC"
-
+%setup_compile_flags
 ./configure \
 %ifarch x86_64 amd64 athlon
     --arch=athlon \
