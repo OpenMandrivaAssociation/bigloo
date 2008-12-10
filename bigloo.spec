@@ -2,14 +2,14 @@
 %define _provides_exceptions devel(
 %define _requires_exceptions devel(
 
-%define major 3.0
+%define major %version
 %define libname %mklibname bigloo %{major}
 %define develname %mklibname bigloo -d
 
 Summary:	Compiler for the Scheme programming language
 Name:		bigloo
 Version:	3.1b
-Release:	%mkrel 1
+Release:	%mkrel 2
 Group:		Development/C
 License:	GPLv2+
 URL:		http://www-sop.inria.fr/mimosa/fp/Bigloo
@@ -20,6 +20,7 @@ BuildRequires:	sqlite3-devel
 BuildRequires:	openssl-devel
 Requires:	%{libname} = %{version}
 Requires:	indent
+Obsoletes:	%{_lib}bigloo3.0
 Requires(post): info-install
 Requires(preun): info-install
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -31,13 +32,6 @@ Scheme practical by offering features usually presented by traditional
 programming languages but ot offered by Scheme and functional programming.
 Bigloo compiles Scheme modules. It delivers small and fast stand alone binary
 executables. Bigloo enables full connections between Scheme and C programs.
-
-%package -n	%{libname}
-Summary:	Bigloo runtime libraries
-Group:          System/Libraries
-
-%description -n	%{libname}
-Runtime libraries for Bigloo compiled programs.
 
 %package -n	%{develname}
 Summary:	Static library and header files for the Bigloo library
@@ -184,10 +178,6 @@ rm -rf %{buildroot}
 %{_libdir}/bigloo/%{major}/bmem/*
 %{_infodir}/*.info*
 %{_mandir}/man*/*
-
-%files -n %{libname}
-%defattr(-,root,root,-)
-%doc LICENSE COPYING README*
 %{_libdir}/lib*.so
 %{_libdir}/bigloo/%{major}/*.so
 
