@@ -3,13 +3,12 @@
 %define _requires_exceptions devel(
 
 %define major %version
-%define libname %mklibname bigloo %{major}
 %define develname %mklibname bigloo -d
 
 Summary:	Compiler for the Scheme programming language
 Name:		bigloo
 Version:	3.1b
-Release:	%mkrel 2
+Release:	%mkrel 4
 Group:		Development/C
 License:	GPLv2+
 URL:		http://www-sop.inria.fr/mimosa/fp/Bigloo
@@ -18,7 +17,6 @@ BuildRequires:	indent
 BuildRequires:	info-install
 BuildRequires:	sqlite3-devel
 BuildRequires:	openssl-devel
-Requires:	%{libname} = %{version}
 Requires:	indent
 Obsoletes:	%{_lib}bigloo3.0
 Requires(post): info-install
@@ -37,7 +35,6 @@ executables. Bigloo enables full connections between Scheme and C programs.
 Summary:	Static library and header files for the Bigloo library
 Group:		Development/C
 Provides:	%{name}-devel = %{version}-%{release}
-Requires:	%{libname} = %{version}
 Requires:	%{name} = %{version}
 Requires:	sqlite3-devel
 Requires:	openssl-devel
@@ -155,14 +152,6 @@ perl -pi -e 's|^BOOTBINDIR=.*|BOOTBINDIR=%{_bindir}|' Makefile.config
 
 %preun
 %_remove_install_info %{name}.info
-
-%if %mdkversion < 200900
-%post -n %{libname} -p /sbin/ldconfig
-%endif
-
-%if %mdkversion < 200900
-%postun -n %{libname} -p /sbin/ldconfig
-%endif
 
 %clean
 rm -rf %{buildroot}
