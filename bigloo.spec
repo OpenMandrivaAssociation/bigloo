@@ -2,13 +2,13 @@
 %define _provides_exceptions devel(
 %define _requires_exceptions devel(
 
-%define major %version
+%define major %{version}
 %define develname %mklibname bigloo -d
 
 Summary:	Compiler for the Scheme programming language
 Name:		bigloo
 Version:	3.1b
-Release:	%mkrel 6
+Release:	7
 Group:		Development/C
 License:	GPLv2+
 URL:		http://www-sop.inria.fr/mimosa/fp/Bigloo
@@ -19,9 +19,6 @@ BuildRequires:	sqlite3-devel
 BuildRequires:	openssl-devel
 Requires:	indent
 Obsoletes:	%{_lib}bigloo3.0
-Requires(post): info-install
-Requires(preun): info-install
-Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 Bigloo is a Scheme implementation devoted to one goal: enabling Scheme based
@@ -52,7 +49,6 @@ Group:		Development/C
 Documentation for the Bigloo compiler and integrated development environment.
 
 %prep
-
 %setup -q -n %{name}%{version}
 
 perl -pi -e "s|bmask=755|bmask=644|" configure
@@ -147,17 +143,7 @@ rm -fr %{buildroot}%{_datadir}/doc
 
 perl -pi -e 's|^BOOTBINDIR=.*|BOOTBINDIR=%{_bindir}|' Makefile.config
 
-%post
-%_install_info %{name}.info
-
-%preun
-%_remove_install_info %{name}.info
-
-%clean
-rm -rf %{buildroot}
-
 %files
-%defattr(-,root,root,-)
 %doc tutorial
 %{_bindir}/*
 %dir %{_libdir}/bigloo/%{major}
@@ -171,13 +157,11 @@ rm -rf %{buildroot}
 %{_libdir}/bigloo/%{major}/*.so
 
 %files -n %{develname}
-%defattr(-,root,root,-)
 %doc Makefile.config examples
 %{_libdir}/bigloo/%{major}/*.a
 %{_libdir}/bigloo/%{major}/*.h
 %{_libdir}/bigloo/%{major}/Makefile*
 
 %files doc
-%defattr(-,root,root,-)
 %doc manuals/*.html
 
