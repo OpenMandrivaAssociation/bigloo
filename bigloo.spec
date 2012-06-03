@@ -1,6 +1,6 @@
 %define inplace `pwd`/inplace
-%define _provides_exceptions devel(
-%define _requires_exceptions devel(
+%define _noautoprov ^devel
+%define _noautoreq ^devel
 
 %define major %{version}
 %define develname %mklibname bigloo -d
@@ -14,7 +14,6 @@ License:	GPLv2+
 URL:		http://www-sop.inria.fr/mimosa/fp/Bigloo
 Source:		ftp://ftp-sop.inria.fr/mimosa/fp/Bigloo/%{name}%{version}.tar.gz
 BuildRequires:	indent
-BuildRequires:	info-install
 BuildRequires:	sqlite3-devel
 BuildRequires:	openssl-devel
 Requires:	indent
