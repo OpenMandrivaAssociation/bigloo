@@ -166,3 +166,50 @@ perl -pi -e 's|^BOOTBINDIR=.*|BOOTBINDIR=%{_bindir}|' Makefile.config
 %files doc
 %doc manuals/*.html
 
+
+
+%changelog
+* Fri Jun 15 2012 Andrey Bondrov <abondrov@mandriva.org> 3.8c-1
++ Revision: 805755
+- Update to 3.8c
+- Drop some legacy junk
+- Drop some legacy junk
+
+  + Oden Eriksson <oeriksson@mandriva.com>
+    - rebuild
+
+* Thu Sep 10 2009 Thierry Vignaud <tv@mandriva.org> 3.1b-5mdv2010.1
++ Revision: 436809
+- rebuild
+
+* Thu Dec 11 2008 Funda Wang <fwang@mandriva.org> 3.1b-4mdv2009.1
++ Revision: 312652
+- fix requires
+
+* Wed Dec 10 2008 Funda Wang <fwang@mandriva.org> 3.1b-2mdv2009.1
++ Revision: 312422
+- merge lib package into main package
+  as the libmajor always be the same as version
+
+* Tue Dec 09 2008 Funda Wang <fwang@mandriva.org> 3.1b-1mdv2009.1
++ Revision: 312153
+- New version 3.1b
+
+* Mon Jun 09 2008 Pixel <pixel@mandriva.com> 3.0c-0.2mdv2009.0
++ Revision: 217183
+- do not call ldconfig in %%post/%%postun, it is now handled by filetriggers
+
+  + Thierry Vignaud <tv@mandriva.org>
+    - fix "foobar is blabla" summary (=> "blabla") so that it looks nice in rpmdrake
+
+* Mon Jan 21 2008 Oden Eriksson <oeriksson@mandriva.com> 3.0c-0.2mdv2008.1
++ Revision: 155496
+- make it compile on x86_32
+- added some optimizations
+- bump release
+- fix build
+- import bigloo
+
+
+* Sun Jan 20 2008 Oden Eriksson <oeriksson@mandriva.com> 3.0c-0.1mdv2008.1
+- initial Mandriva package
