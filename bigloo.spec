@@ -1,23 +1,23 @@
 %define inplace `pwd`/inplace
-%define _noautoprov ^devel
-%define _noautoreq ^devel
+%define __noautoprov 'devel.*'
+%define __noautoreq 'devel.*'
 
 %define major %{version}
-%define develname %mklibname bigloo -d
+%define devname %mklibname bigloo -d
 
 Summary:	Compiler for the Scheme programming language
 Name:		bigloo
 Version:	3.8c
-Release:	1
-Group:		Development/C
+Release:	2
 License:	GPLv2+
-URL:		http://www-sop.inria.fr/mimosa/fp/Bigloo
-Source:		ftp://ftp-sop.inria.fr/mimosa/fp/Bigloo/%{name}%{version}.tar.gz
+Group:		Development/C
+Url:		http://www-sop.inria.fr/mimosa/fp/Bigloo
+Source0:	ftp://ftp-sop.inria.fr/mimosa/fp/Bigloo/%{name}%{version}.tar.gz
+Source10:	%{name}.rpmlintrc
 BuildRequires:	indent
-BuildRequires:	sqlite3-devel
-BuildRequires:	openssl-devel
+BuildRequires:	pkgconfig(openssl)
+BuildRequires:	pkgconfig(sqlite3)
 Requires:	indent
-Obsoletes:	%{_lib}bigloo3.0
 
 %description
 Bigloo is a Scheme implementation devoted to one goal: enabling Scheme based
@@ -27,18 +27,43 @@ programming languages but ot offered by Scheme and functional programming.
 Bigloo compiles Scheme modules. It delivers small and fast stand alone binary
 executables. Bigloo enables full connections between Scheme and C programs.
 
-%package -n	%{develname}
+%files
+%{_bindir}/*
+%dir %{_libdir}/bigloo/%{major}
+%dir %{_libdir}/bigloo/%{major}/bmem
+%{_libdir}/bigloo/%{major}/*.init
+%{_libdir}/bigloo/%{major}/*.heap
+%{_libdir}/bigloo/%{major}/bmem/*
+%{_libdir}/bigloo/%{major}/bigloo_config.sch
+%{_libdir}/bigloo/%{major}/runtest
+%{_libdir}/bigloo/%{major}/text
+%{_infodir}/*.info*
+%{_mandir}/man*/*
+%{_libdir}/lib*.so
+%{_libdir}/bigloo/%{major}/*.so
+
+#----------------------------------------------------------------------------
+
+%package -n	%{devname}
 Summary:	Static library and header files for the Bigloo library
 Group:		Development/C
-Provides:	%{name}-devel = %{version}-%{release}
-Requires:	%{name} = %{version}
-Requires:	sqlite3-devel
-Requires:	openssl-devel
+Provides:	%{name}-devel = %{EVRD}
+Requires:	%{name} = %{EVRD}
+Requires:	pkgconfig(openssl)
+Requires:	pkgconfig(sqlite3)
 
-%description -n	%{develname}
+%description -n	%{devname}
 Runtime libraries for Bigloo compiled programs.
 
 This package contains the static Bigloo library and its header files.
+
+%files -n %{devname}
+%doc Makefile.config examples
+%{_libdir}/bigloo/%{major}/*.a
+%{_libdir}/bigloo/%{major}/*.h
+%{_libdir}/bigloo/%{major}/Makefile*
+
+#----------------------------------------------------------------------------
 
 %package	doc
 Summary:	Bigloo documentation
@@ -46,6 +71,11 @@ Group:		Development/C
 
 %description	doc
 Documentation for the Bigloo compiler and integrated development environment.
+
+%files doc
+%doc manuals/*.html
+
+#----------------------------------------------------------------------------
 
 %prep
 %setup -q -n %{name}%{version}
@@ -114,8 +144,6 @@ make compile-bee
 #make test
 
 %install
-rm -rf %{buildroot}
-
 export LD_LIBRARY_PATH=`pwd`/lib/%{major}
 export BIGLOOLIB=%{inplace}%{_libdir}/bigloo/%{major}
 
@@ -142,74 +170,3 @@ rm -fr %{buildroot}%{_datadir}/doc
 
 perl -pi -e 's|^BOOTBINDIR=.*|BOOTBINDIR=%{_bindir}|' Makefile.config
 
-%files
-%{_bindir}/*
-%dir %{_libdir}/bigloo/%{major}
-%dir %{_libdir}/bigloo/%{major}/bmem
-%{_libdir}/bigloo/%{major}/*.init
-%{_libdir}/bigloo/%{major}/*.heap
-%{_libdir}/bigloo/%{major}/bmem/*
-%{_libdir}/bigloo/%{major}/bigloo_config.sch
-%{_libdir}/bigloo/%{major}/runtest
-%{_libdir}/bigloo/%{major}/text
-%{_infodir}/*.info*
-%{_mandir}/man*/*
-%{_libdir}/lib*.so
-%{_libdir}/bigloo/%{major}/*.so
-
-%files -n %{develname}
-%doc Makefile.config examples
-%{_libdir}/bigloo/%{major}/*.a
-%{_libdir}/bigloo/%{major}/*.h
-%{_libdir}/bigloo/%{major}/Makefile*
-
-%files doc
-%doc manuals/*.html
-
-
-
-%changelog
-* Fri Jun 15 2012 Andrey Bondrov <abondrov@mandriva.org> 3.8c-1
-+ Revision: 805755
-- Update to 3.8c
-- Drop some legacy junk
-- Drop some legacy junk
-
-  + Oden Eriksson <oeriksson@mandriva.com>
-    - rebuild
-
-* Thu Sep 10 2009 Thierry Vignaud <tv@mandriva.org> 3.1b-5mdv2010.1
-+ Revision: 436809
-- rebuild
-
-* Thu Dec 11 2008 Funda Wang <fwang@mandriva.org> 3.1b-4mdv2009.1
-+ Revision: 312652
-- fix requires
-
-* Wed Dec 10 2008 Funda Wang <fwang@mandriva.org> 3.1b-2mdv2009.1
-+ Revision: 312422
-- merge lib package into main package
-  as the libmajor always be the same as version
-
-* Tue Dec 09 2008 Funda Wang <fwang@mandriva.org> 3.1b-1mdv2009.1
-+ Revision: 312153
-- New version 3.1b
-
-* Mon Jun 09 2008 Pixel <pixel@mandriva.com> 3.0c-0.2mdv2009.0
-+ Revision: 217183
-- do not call ldconfig in %%post/%%postun, it is now handled by filetriggers
-
-  + Thierry Vignaud <tv@mandriva.org>
-    - fix "foobar is blabla" summary (=> "blabla") so that it looks nice in rpmdrake
-
-* Mon Jan 21 2008 Oden Eriksson <oeriksson@mandriva.com> 3.0c-0.2mdv2008.1
-+ Revision: 155496
-- make it compile on x86_32
-- added some optimizations
-- bump release
-- fix build
-- import bigloo
-
-
-* Sun Jan 20 2008 Oden Eriksson <oeriksson@mandriva.com> 3.0c-0.1mdv2008.1
-- initial Mandriva package

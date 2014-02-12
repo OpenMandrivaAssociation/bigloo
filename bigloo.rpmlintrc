@@ -1,0 +1,4 @@
+addFilter("E: non-readable")
+addFilter("E: invalid-soname")
+addFilter("E: executable-in-library-package")
+addFilter("E: non-standard-executable-perm")
