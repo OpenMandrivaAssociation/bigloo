@@ -8,7 +8,7 @@
 Summary:	Compiler for the Scheme programming language
 Name:		bigloo
 Version:	3.8c
-Release:	2
+Release:	3
 License:	GPLv2+
 Group:		Development/C
 Url:		http://www-sop.inria.fr/mimosa/fp/Bigloo
