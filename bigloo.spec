@@ -11,7 +11,7 @@ Version:	3.8c
 Release:	3
 License:	GPLv2+
 Group:		Development/C
-Url:		http://www-sop.inria.fr/mimosa/fp/Bigloo
+Url:		https://www-sop.inria.fr/mimosa/fp/Bigloo
 Source0:	ftp://ftp-sop.inria.fr/mimosa/fp/Bigloo/%{name}%{version}.tar.gz
 Source10:	%{name}.rpmlintrc
 BuildRequires:	indent
